@@ -126,10 +126,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RectangularMatrix.cpp" />
     <ClCompile Include="UnityMatrix.cpp" />
     <ClCompile Include="Matrix.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RectangularMatrix.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="UnityMatrix.h" />
   </ItemGroup>
