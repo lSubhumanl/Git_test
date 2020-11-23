@@ -24,6 +24,9 @@ public:
 	void output() const;
 	Matrix operator+(Matrix& rightMatrix);
 	Matrix operator-(Matrix& rightMatrix);
+	Matrix& operator=(Matrix& rightMatrix);
+
+	// cout << m1() << endl;	
 };
 
 /* внеклассовое определение метода указывается следующим образом:
@@ -37,6 +40,44 @@ public:
  // в любой нештатной ситуации пишем ошибку на std::cerr
  // и делаем std::exit(EXIT_FAILURE) из <cstdlib>
 
+
+	 /* номер элемента в массиве => строка и столбец:
+	  * row = (i / size)
+	  * col = (i % size)
+	  * строка и столбец => номер элемента в массиве:
+	  * idx = row * size + col
+	 */
+	 /*
+	 int x, y, z = 6;
+
+	 x = y = z;
+
+	 MyClass m1, m2, m3(4,5);
+
+	 m1 = m2 = m3;
+
+	 */
+Matrix& Matrix::operator=(Matrix& rightMatrix)
+{
+	if (this != &rightMatrix) {
+		if (size != rightMatrix.getSize()) {
+			this->setSize(rightMatrix.getSize());
+		}
+
+		for (unsigned int i = 0; i < size * size; ++i) {
+			numbers[i] = rightMatrix.getNumber(i % size, i / size);
+		}
+	}
+	/*
+	Опишите разницу между *this, this и &this.
+	*this - объект (может быть неявно преобразован в ссылку на объект)
+	this - указатель на объект (может быть неявно преобразован в ссылку на указатель на объект)
+	&this - двойной указатель (может быть неявно преобразован в ссылку на двойной указатель)
+	*/
+	return *this;
+
+}
+
 Matrix Matrix::operator-(Matrix& rightMatrix)
 {
 	if (this->size != rightMatrix.getSize()) {
@@ -48,11 +89,11 @@ Matrix Matrix::operator-(Matrix& rightMatrix)
 	// у каждого элемента result вызываем сеттер со значением разности
 	// значений геттеров this и rightMatrix
 	for (unsigned int i = 0; i <= size * size; ++i) {
-		// TODO здесь в матрице 5*5 будет обработано лишь 5 элементов
 		int difference = result.getNumber(i % size, i / size) -
 			rightMatrix.getNumber(i % size, i / size);
 		result.setNumber(i % size, i / size, difference);
 	}
+	return result;
 }
 
 Matrix Matrix::operator+(Matrix& rightMatrix)
