@@ -19,9 +19,9 @@ public:
 		int newNumber);
 
 	void plusAssign(const Matrix& summand);
-	Matrix operator+(Matrix& rightMatrix);
-	Matrix operator-(Matrix& rightMatrix);
-	Matrix& operator=(Matrix& rightMatrix);
+	Matrix operator+(const Matrix& rightMatrix) const;
+	Matrix operator-(const Matrix& rightMatrix) const;
+	Matrix& operator=(const Matrix& rightMatrix);
 	void writeToStream(std::ostream& output) const;
 	void readFromStream(std::istream& input);
 	void randomize();

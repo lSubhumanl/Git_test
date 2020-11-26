@@ -27,9 +27,9 @@ UnityMatrix::UnityMatrix(const UnityMatrix& instanceToCopyFrom)
 		}
 	}
 }
-unsigned int UnityMatrix::getSize(void) const
+unsigned int UnityMatrix::getNumber(unsigned int) const
 {
-	return Matrix::getSize();
+	return Matrix::getNumber();
 }
 	
 void UnityMatrix::setSize(unsigned int newSize)

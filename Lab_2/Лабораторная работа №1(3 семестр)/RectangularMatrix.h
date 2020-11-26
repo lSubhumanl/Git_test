@@ -6,29 +6,27 @@
 class RectangularMatrix : private Matrix {
 	unsigned int width, height;
 public: 
+	RectangularMatrix(void);
+	RectangularMatrix(unsigned int newWidth, unsigned int newHeight);
+	RectangularMatrix(const RectangularMatrix& instanceToCopyFrom);
+	unsigned int getWidth(void) const;
+	unsigned int getHeight(void) const;
+	int getNumber(unsigned int column, unsigned int row) const;
+	void setSize(unsigned int newWidth, unsigned int newHeight);
+	void setNumber(unsigned int column, unsigned int row, int newNumber);
+	void plusAssign(const RectangularMatrix& summand);
+	RectangularMatrix operator+(const RectangularMatrix& rightMatrix)const;
+	RectangularMatrix operator-(const RectangularMatrix& rightMatrix)const;
+	RectangularMatrix& operator=(const RectangularMatrix& rightMatrix);
+	void writeToStream(std::ostream& output) const;
+	void readFromStream(std::istream& input);
 	// предложение: скопировать объявления всех методов родительского класса,
 	// и подписать, какая судьба у него в дочернем классе:
 	// либо ему нет места в дочернем классе,
 	// либо у него будет полностью новая реализация,
 	// либо у него будет частично дочерняя реализация, и вызов метода родителя.
 
-	/*
-	Matrix(void); - передаем управление на конструктор родительского класса 
-	Matrix(unsigned int newSize); - не нужен метод с одним аргументом, но нужен от двух
-	Matrix(const Matrix& instanceToCopyFrom); - частично используется конструктор родительского класса  
-	~Matrix(void); - не нужен 
-	virtual unsigned int getSize(void) const;  - метод родительского класса не нужен, нужно написать отдельный геттер
-	virtual void setSize(unsigned int newSize); - метод родительского класса не нужен, нужно написать отдельный сеттер
-	virtual int getNumber(unsigned int column, unsigned int row) const; - передаем управление на метод родительского класса
-	(Проверка допустимости индекса)
-
-	virtual void setNumber(unsigned int column, unsigned int row,
-		int newNumber); - передаем управление на метод родительского класса (Проверка допустимости индекса)
-
-	void plusAssign(const Matrix& summand); - передаем управление на метод родительского класса
-	Matrix operator+(Matrix& rightMatrix); - родительский метод не нужен, нужно писать отдельный
-	Matrix operator-(Matrix& rightMatrix); - родительский метод не нужен, нужно писать отдельный
-	Matrix& operator=(Matrix& rightMatrix); - родительский метод не нужен, нужно писать отдельный
+	/* 
 	void writeToStream(std::ostream& output) const; - родительский метод не нужен, нужно писать отдельный
 	void readFromStream(std::istream& input); - родительский метод не нужен, нужно писать отдельный
 	void randomize(); - родительский метод не нужен, нужно писать отдельный

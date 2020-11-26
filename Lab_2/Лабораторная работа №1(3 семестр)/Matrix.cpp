@@ -33,7 +33,7 @@ void Matrix::writeToStream(std::ostream& output) const
 	output << endl;
 }
 
-Matrix& Matrix::operator=(Matrix& rightMatrix)
+Matrix& Matrix::operator=(const Matrix& rightMatrix)
 {
 	if (this != &rightMatrix) {
 		if (size != rightMatrix.getSize()) {
@@ -47,10 +47,10 @@ Matrix& Matrix::operator=(Matrix& rightMatrix)
 	return *this;
 }
 
-Matrix Matrix::operator-(Matrix& rightMatrix)
+Matrix Matrix::operator-(const Matrix& rightMatrix) const
 {
 	if (this->size != rightMatrix.getSize()) {
-		cerr << "Вычитание матрица разного размера" << endl;
+		cerr << "Вычитание матриц разного размера" << endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -63,7 +63,7 @@ Matrix Matrix::operator-(Matrix& rightMatrix)
 	return result;
 }
 
-Matrix Matrix::operator+(Matrix& rightMatrix)
+Matrix Matrix::operator+(const Matrix& rightMatrix) const
 {
 	Matrix result = *this;
 	result.plusAssign(rightMatrix);
@@ -117,18 +117,15 @@ void Matrix::setSize(unsigned int newSize)
 	if (newSize == size)
 		return;
 
-	size_t n_numbers = newSize;
-	n_numbers *= newSize;
+	size_t n_numbers = (size_t ) newSize * newSize;
 	int* newNumbers = new int[n_numbers];
 	for (unsigned int row = 0; row < newSize; ++row) {
 		for (unsigned int col = 0; col < newSize; ++col) {
-			size_t idx=row;
-			idx *= newSize;
-			idx += col;
+			size_t idx=(size_t) row * newSize + col;
 			if (row < size && col < size)
 				newNumbers[row * newSize + col] =
 				numbers[row * size + col];
-			else
+			else if (idx < n_numbers)
 				newNumbers[idx] = 0;
 		}
 	}
