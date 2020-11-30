@@ -20,23 +20,10 @@ public:
 	RectangularMatrix& operator=(const RectangularMatrix& rightMatrix);
 	void writeToStream(std::ostream& output) const;
 	void readFromStream(std::istream& input);
-	// предложение: скопировать объ€влени€ всех методов родительского класса,
-	// и подписать, кака€ судьба у него в дочернем классе:
-	// либо ему нет места в дочернем классе,
-	// либо у него будет полностью нова€ реализаци€,
-	// либо у него будет частично дочерн€€ реализаци€, и вызов метода родител€.
-
-	/* 
-	void writeToStream(std::ostream& output) const; - родительский метод не нужен, нужно писать отдельный
-	void readFromStream(std::istream& input); - родительский метод не нужен, нужно писать отдельный
-	void randomize(); - родительский метод не нужен, нужно писать отдельный
+	void randomize(int min,int max);
 };
-std::istream& operator>>(std::istream& someStream, Matrix& matrix); - нужно переписать операторную функцию
-std::ostream& operator<<(std::ostream& someStream, const Matrix& matrix); - нужно переписать операторную функцию
-***ƒополнительно***
 
-
-*/
-};
+std::istream& operator>>(std::istream& someStream, RectangularMatrix& matrix);
+std::ostream& operator<<(std::ostream& someStream, const RectangularMatrix& matrix);
 
 #endif // !_RECTANGULAR_MATRIX_H

@@ -9,21 +9,23 @@ using std::exit;
 RectangularMatrix::RectangularMatrix(void) 
 	:Matrix(), width(1), height(1) 
 {
-
 }
 
 RectangularMatrix::RectangularMatrix(unsigned int newWidth, unsigned int newHeight)
 	: Matrix(newWidth > newHeight ? newWidth : newHeight), width(newWidth), height(newHeight)
 {
-
 }
 
 RectangularMatrix::RectangularMatrix(const RectangularMatrix& instanceToCopyFrom)
-	:Matrix(instanceToCopyFrom.getWidth() > instanceToCopyFrom.getWidth() ?
+	:Matrix(instanceToCopyFrom.getWidth() > instanceToCopyFrom.getHeight() ?
 		instanceToCopyFrom.getWidth() : instanceToCopyFrom.getHeight()),
-	width(instanceToCopyFrom.getWidth()), height(instanceToCopyFrom.getWidth())
+	width(instanceToCopyFrom.getWidth()), height(instanceToCopyFrom.getHeight())
 {
-
+	for (unsigned int row = 0; row < height; ++row) {
+		for (unsigned int col = 0; col < width; ++col) {
+			setNumber(col, row, instanceToCopyFrom.getNumber(col, row));
+		}
+	}
 }
 
 unsigned int RectangularMatrix::getWidth(void) const
@@ -38,7 +40,11 @@ unsigned int RectangularMatrix::getHeight(void) const
 
 int RectangularMatrix::getNumber(unsigned int column, unsigned int row) const
 {
-	//todo проверить допустимость индексов
+	if (column >= width && row >= height) {
+		cerr << "«апрос несущетсвующего элемента" << endl;
+		exit(EXIT_FAILURE);
+	}
+
 	return Matrix::getNumber(column, row);
 }
 
@@ -56,7 +62,10 @@ void RectangularMatrix::setSize(unsigned int newWidth, unsigned int newHeight)
 
 void RectangularMatrix::setNumber(unsigned int column, unsigned int row, int newNumber)
 {
-	//todo проверить допустимость индексов
+	if (column >= width && row >= height) {
+		cerr << "«апрос на изменение несущетсвующего элемента" << endl;
+		exit(EXIT_FAILURE);
+	}
 	Matrix::setNumber(column, row, newNumber);
 }
 
@@ -83,7 +92,7 @@ RectangularMatrix RectangularMatrix::operator+(const RectangularMatrix& rightMat
 
 RectangularMatrix RectangularMatrix::operator-(const RectangularMatrix& rightMatrix)const
 {
-	if (this->getWidth() != rightMatrix.getWidth() || this->getHeight() != rightMatrix.getHeight)
+	if (this->getWidth() != rightMatrix.getWidth() || this->getHeight() != rightMatrix.getHeight())
 	{
 		cerr << "¬ычитание матриц разного размера" << endl;
 		exit(EXIT_FAILURE);
@@ -116,11 +125,44 @@ RectangularMatrix& RectangularMatrix::operator=(const RectangularMatrix& rightMa
 
 void RectangularMatrix::writeToStream(std::ostream& output) const
 {
-	output << size;
-	for (unsigned int i = 0; i < size * size; ++i) {
-		if (i % size == 0)
-			output << endl;
-		output << numbers[i] << " ";
+	output << width << ' ' << height << endl;
+	for (unsigned int row = 0; row < height; ++row) {
+		for (unsigned int col = 0; col < width; ++col) {
+			output << getNumber(col, row)<<' ';
+		}
+		output << endl;
 	}
-	output << endl;
+}
+
+void RectangularMatrix::readFromStream(std::istream& input) 
+{
+	unsigned int newWidth, newHeight;
+	input >> newWidth >> newHeight;
+	setSize(newWidth, newHeight);
+	for (unsigned int row = 0; row < height; ++row){
+		for (unsigned int col = 0; col < width; ++col){
+			int newNumber;
+			input >> newNumber;
+			setNumber(col, row, newNumber);
+		}
+	}
+}
+
+void RectangularMatrix::randomize(int min, int max) {
+	for (unsigned int col = 0; col < width; ++col) {
+		for (unsigned int row = 0; row < height; ++row) {
+			setNumber(col, row, rand() % (max - min + 1) + min);
+		}
+	}
+}
+
+std::istream& operator>>(std::istream& someStream, RectangularMatrix& matrix)
+{
+	matrix.readFromStream(someStream);
+	return someStream;
+}
+std::ostream& operator<<(std::ostream& someStream, const RectangularMatrix& matrix)
+{
+	matrix.writeToStream(someStream);
+	return someStream;
 }

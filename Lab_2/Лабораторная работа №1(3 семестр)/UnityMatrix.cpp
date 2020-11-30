@@ -27,20 +27,21 @@ UnityMatrix::UnityMatrix(const UnityMatrix& instanceToCopyFrom)
 		}
 	}
 }
-unsigned int UnityMatrix::getNumber(unsigned int) const
+
+unsigned int UnityMatrix::getSize() const {
+	return Matrix::getSize();
+}
+
+int UnityMatrix::getNumber(unsigned int column, unsigned int row) const
 {
-	return Matrix::getNumber();
+	return Matrix::getNumber(column, row);
 }
 	
 void UnityMatrix::setSize(unsigned int newSize)
 {
 	Matrix::setSize(newSize);
 }
-	
-int UnityMatrix::getNumber(unsigned int column, unsigned int row) const
-{
-	return column == row ? 1 : 0;
-}
+
 	
 void UnityMatrix::writeToStream(std::ostream& output) const
 {

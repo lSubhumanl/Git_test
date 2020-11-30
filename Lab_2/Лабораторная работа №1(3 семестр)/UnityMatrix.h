@@ -14,5 +14,4 @@ public:
 	void writeToStream(std::ostream& output) const;
 };
 std::ostream& operator<<(std::ostream& someStream, const UnityMatrix& matrix);
-
 #endif
